@@ -1,19 +1,22 @@
 class User {
-  constructor({ name, email, role = 'student' }) {
-    // Regla de negocio #1: Exclusividad Univalle
-    if (!email || !email.endsWith('@univalle.edu.co')) {
-      throw new Error("Acceso denegado: Solo se permiten correos institucionales de la Universidad del Valle (@univalle.edu.co).");
-    }
-
-    // Regla de negocio #2: Validar roles permitidos (según tus requerimientos)
-    const validRoles = ['student', 'teacher', 'admin'];
-    if (!validRoles.includes(role)) {
-      throw new Error("Rol de usuario inválido.");
+  constructor({ name, email, picture, studentId, phone, address, role = 'student' }) {
+    if (!email || !email.endsWith('@correounivalle.edu.co')) {
+      throw new Error("Acceso denegado: Solo se permiten correos institucionales (@correounivalle.edu.co).");
     }
 
     this.name = name;
     this.email = email;
+    this.picture = picture || ''; // Foto de Google
     this.role = role;
+    
+    // Nuevos campos para el formulario de Onboarding
+    this.studentId = studentId || null;
+    this.phone = phone || null;
+    this.address = address || null;
+    
+    // Bandera mágica: nos dirá si el usuario ya llenó el formulario o no
+    this.isProfileComplete = !!(studentId && phone && address); 
+    
     this.isActive = true;
     this.createdAt = new Date();
   }

@@ -8,10 +8,30 @@ class MongoUserRepository {
     await newUser.save();
     return newUser;
   }
+  
+  async updateProfile(email, profileData) {
+    // Usamos findOneAndUpdate de Mongoose para buscar por email y actualizar
+    const updatedUser = await UserModel.findOneAndUpdate(
+      { email: email },
+      { 
+        $set: {
+          studentId: profileData.studentId,
+          phone: profileData.phone,
+          address: profileData.address,
+          isProfileComplete: true // ¡Activamos la bandera mágica!
+        } 
+      },
+      { new: true } // Para que nos devuelva el usuario ya modificado
+    );
+    
+    return updatedUser;
+  }
 
+  // Dentro de tu clase MongoUserRepository...
   async findByEmail(email) {
-    // Busca si un usuario ya existe
-    return await UserModel.findOne({ email });
+    // UserModel es tu esquema de Mongoose
+    const user = await UserModel.findOne({ email });
+    return user;
   }
 }
 

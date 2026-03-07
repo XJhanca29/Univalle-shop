@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const connectDB = require('./src/infrastructure/database/connection');
 const userRoutes = require('./src/infrastructure/routes/userRoutes');
 
@@ -6,6 +7,7 @@ const app = express();
 // Usaremos el puerto 3001 para no chocar con el de Reviews (3000)
 const PORT = process.env.PORT || 3001;
 
+app.use(cors());
 app.use(express.json());
 
 // Conectamos a la base de datos de usuarios
